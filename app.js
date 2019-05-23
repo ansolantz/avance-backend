@@ -11,6 +11,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const auth = require('./routes/auth');
+const user = require('./routes/user');
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -33,13 +34,14 @@ app.use(
     origin: [process.env.PUBLIC_DOMAIN],
   }),
 );
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS,DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
+
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS,DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   next();
+// });
 
 app.use(
   session({
@@ -63,6 +65,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/auth', auth);
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
