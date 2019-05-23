@@ -30,6 +30,28 @@ router.post('/signup', validationLoggin(),
   },
 );
 
+
+router.post('/login', validationLoggin(),
+  async (req, res, next) => {
+    const { username, password } = req.body;
+    try {
+      const user = await User.findOne({ username });
+      if (!user) {
+        next(createError(404));
+      } else if (bcrypt.compareSync(password, user.password)) {
+        return res.status(200).json(user);
+      } else {
+        next(createError(401));
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
+
+
 router.post('/logout', (req, res, next) => {
   return res.status(204).send();
 });
