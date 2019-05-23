@@ -20,9 +20,9 @@ const userSchema = new Schema({
   image: {
     type: String, default: '../assets/images/avatar.png'
   },
-  age: Number,
-  weight: Number,
-  height: Number,
+  age: String,
+  weight: String,
+  height: String,
   acivitityId: [{ type: Schema.Types.ObjectId, ref: 'Activity' }]
   ,
 },

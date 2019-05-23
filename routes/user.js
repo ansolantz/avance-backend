@@ -16,24 +16,31 @@ const {
 
 
 //router.put('/update/:id', isLoggedIn(), (req, res, next) => {
-router.put('/update/:id', (req, res, next) => {
+router.put('/update/', isLoggedIn(), (req, res, next) => {
 
-  const { displayName, email } = req.body;
+  //const { displayName, email, url, age, weight, height } = req.body;
+  const userId = req.session.currentUser._id
+  console.log("inside and user is", userId);
 
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    res.status(400).json({ message: 'Specified id is not valid' });
-    return;
-  }
-  //User.findByIdAndUpdate(req.session.user._id, req.body)
-
-  User.findByIdAndUpdate(req.params.id, req.body)
+  User.findByIdAndUpdate(userId, req.body)
 
     //User.findByIdAndUpdate(req.params.id, { displayName, email })
-    .then(() => {
-      //res.json({ message: `User with ${req.session.user._id} is updated.` });
-      res.json({ message: `User with ${req.params.id} is updated.` });
+    .then(async () => {
+      res.json({ message: `User with ${userId} is updated.` });
+      console.log("did find user");
+      try {
+        const user = await User.findOne({ _id: userId });
+        console.log("hi there");
+        console.log(user)
+        req.session.currentUser = user;
+      } catch (error) {
+        console.log("this is bad");
+        next(error);
+      }
+
     })
     .catch(err => {
+      console.log("error finding user", err);
       res.json(err);
     })
 });

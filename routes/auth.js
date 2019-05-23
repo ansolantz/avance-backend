@@ -16,8 +16,16 @@ const {
 
 
 // //  GET    '/me'
-router.get('/me', isLoggedIn(), (req, res, next) => {
-  res.json(req.session.currentUser);
+router.get('/me/:id', isLoggedIn(), async (req, res, next) => {
+  console.log("got param as", req.params.id);
+  if (req.params.id) {
+
+    const user = await User.findOne({ _id: req.params.id });
+    console.log("got an id and found user", user);
+    res.json(user);
+  } else {
+    res.json(req.session.currentUser);
+  }
 });
 
 
@@ -77,18 +85,6 @@ router.get('/private', isLoggedIn(), (req, res, next) => {
 });
 
 
-router.put('/user/update/:id', isLoggedIn(), (req, res, next) => {
-
-  //User.findByIdAndUpdate(req.session.user._id, req.body)
-  User.findByIdAndUpdate(req.params.id, req.body)
-    .then(() => {
-      res.json({ message: `User with ${req.session.user._id} is updated.` });
-    })
-    .catch(err => {
-      res.json(err);
-    })
-
-});
 
 
 module.exports = router;
