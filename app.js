@@ -26,6 +26,9 @@ mongoose
     console.error(error);
   });
 
+// Make Mongoose use `findOneAndUpdate()`. (This option is `true` by default)
+mongoose.set('useFindAndModify', false);
+
 const app = express();
 
 app.use(
@@ -64,8 +67,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/auth', auth);
+// app.use('/auth', auth);
 app.use('/user', user);
+
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
