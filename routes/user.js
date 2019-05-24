@@ -6,9 +6,11 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
-// HELPER FUNCTIONS
+// HELPER FUNCTION
 const { validationLoggin } = require('../helpers/middlewares');
 
+
+//  POST    '/signup'
 router.post('/signup', validationLoggin(),
   async (req, res, next) => {
     const { username, password } = req.body;
@@ -30,7 +32,7 @@ router.post('/signup', validationLoggin(),
   },
 );
 
-
+//  POST    '/login'
 router.post('/login', validationLoggin(),
   async (req, res, next) => {
     const { username, password } = req.body;
@@ -50,8 +52,7 @@ router.post('/login', validationLoggin(),
 );
 
 
-
-
+//  POST    '/logout'
 router.post('/logout', (req, res, next) => {
   return res.status(204).send();
 });
@@ -85,6 +86,24 @@ router.put('/update/', (req, res, next) => {
     })
     .catch(err => { res.json(err) })
 });
+
+
+//  DELETE    '/delete'  -- Deleting user
+router.delete('/delete/:id', (req, res, next) => {
+
+  console.log("inside and user is", req.params.id);
+
+  User.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res
+        .status(202)  //  Accepted
+        .json({ message: `Your account is successfully deleted (id: ${req.params.id})` })
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    })
+});
+
 
 module.exports = router;
 
