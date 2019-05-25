@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+const Activity = require('../models/activity');
+
 
 // HELPER FUNCTION
 const { validationLoggin } = require('../helpers/middlewares');
@@ -103,6 +105,27 @@ router.delete('/delete/:id', (req, res, next) => {
       res.status(500).json(err);
     })
 });
+
+
+//  POST    '/addActivity'
+router.post('/addActivity', (req, res, next) => {
+  const { activityName, userId } = req.body;
+
+  Activity.create({ activityName, userId })
+    .then((response) => {
+      console.log("Adding activity to db")
+      res
+        .status(201)
+        .json(response);
+    })
+    .catch((err) => {
+      res
+        .status(500)  // Internal Server Error
+        .json(err)
+    })
+
+});
+
 
 
 module.exports = router;

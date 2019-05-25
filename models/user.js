@@ -23,8 +23,6 @@ const userSchema = new Schema({
   age: String,
   weight: String,
   height: String,
-  acivitityId: [{ type: Schema.Types.ObjectId, ref: 'Activity' }]
-  ,
 },
   {
     timestamps: {
