@@ -109,9 +109,9 @@ router.delete('/delete/:id', (req, res, next) => {
 
 //  POST    '/addActivity'
 router.post('/addActivity', (req, res, next) => {
-  const { activityName, userId } = req.body;
+  const { activityName, userId, data } = req.body;
 
-  Activity.create({ activityName, userId })
+  Activity.create({ activityName, userId, data })
     .then((response) => {
       console.log("Adding activity to db")
       res
@@ -125,8 +125,6 @@ router.post('/addActivity', (req, res, next) => {
     })
 
 });
-
-
 
 module.exports = router;
 
