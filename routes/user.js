@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const Activity = require('../models/activity');
+const Feed = require('../models/feed');
 
 
 // HELPER FUNCTION
@@ -125,6 +126,28 @@ router.post('/addActivity', (req, res, next) => {
     })
 
 });
+
+//  POST    '/addToFeed'
+router.post('/addToFeed', (req, res, next) => {
+
+  const { activityName, userId, feedbackType, category, image, title, text } = req.body;
+
+  Feed.create({ activityName, userId, feedbackType, category, image, title, text })
+    .then((response) => {
+      console.log("Adding feed to db")
+      res
+        .status(201)
+        .json(response);
+    })
+    .catch((err) => {
+      res
+        .status(500)  // Internal Server Error
+        .json(err)
+    })
+
+});
+
+
 
 module.exports = router;
 
