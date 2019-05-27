@@ -108,13 +108,40 @@ router.delete('/delete/:id', (req, res, next) => {
 });
 
 
+const checkIfGoalAchieved = (userId, activityName, positiveGoal) => {
+
+  Activity.find({
+    $and: [
+      { activityName },
+      { userId },
+      {
+        $where: function () {
+          today = new Date();
+          today.setHours(0, 0, 0, 0);
+          return this._id.getTimestamp() > today
+        }
+      }
+    ]
+  }, function (err, results) {
+    if (results.length === positiveGoal) {
+      console.log("Goal reched!")
+      addToFeed(activityName, userId)
+    }
+  });
+}
+
+
 //  POST    '/addActivity'
 router.post('/addActivity', (req, res, next) => {
-  const { activityName, userId, data } = req.body;
+  const { activityName, positiveGoal, userId, data } = req.body;
 
   Activity.create({ activityName, userId, data })
     .then((response) => {
       console.log("Adding activity to db")
+
+      if (positiveGoal > 0) {
+        checkIfGoalAchieved(userId, activityName, positiveGoal)
+      }
       res
         .status(201)
         .json(response);
@@ -124,12 +151,24 @@ router.post('/addActivity', (req, res, next) => {
         .status(500)  // Internal Server Error
         .json(err)
     })
-
 });
+
+function addToFeed(activityName, userId) {
+  const feedbackType = 'positive';
+
+  if (activityName === 'drink-water') {
+    const category = 'Hidration';
+    const image = '../assets/images/hydration.jpg';
+    const title = 'Congrats you reached your daily goal!';
+    const text = 'You drank 8 glasses of water today!'
+
+    Feed.create({ activityName, userId, feedbackType, category, image, title, text });
+  }
+
+}
 
 //  POST    '/addToFeed'
 router.post('/addToFeed', (req, res, next) => {
-
   const { activityName, userId, feedbackType, category, image, title, text } = req.body;
 
   Feed.create({ activityName, userId, feedbackType, category, image, title, text })
@@ -144,7 +183,6 @@ router.post('/addToFeed', (req, res, next) => {
         .status(500)  // Internal Server Error
         .json(err)
     })
-
 });
 
 

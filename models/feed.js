@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const feedSchema = new Schema({
   activityName: String,
   feedbackType: String,
+  category: String,
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
   image: String,
-  category: String,
   title: String,
   text: String,
   date: { type: Date, default: Date.now }
