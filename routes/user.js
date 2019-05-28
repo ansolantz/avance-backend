@@ -186,6 +186,19 @@ router.post('/addToFeed', (req, res, next) => {
 });
 
 
+//  GET    '/getFeed'
+router.get('/getFeed/:id', async (req, res, next) => {
+
+  if (req.params.id) {
+    const user = await Feed.find({ userId: req.params.id });
+    console.log("Getting user feed from db")
+    res.json(user);
+  } else {
+    res.status(500).send()
+  }
+});
+
+
 
 module.exports = router;
 
