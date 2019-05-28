@@ -86,6 +86,8 @@ app.use((err, req, res, next) => {
     const statusError = err.status || '500';
     res.status(statusError).json(err);
   }
+
+
 });
 
 module.exports = app;

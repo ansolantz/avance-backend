@@ -196,6 +196,7 @@ router.get('/getFeed/:id', async (req, res, next) => {
   } else {
     res.status(500).send()
   }
+
 });
 
 
