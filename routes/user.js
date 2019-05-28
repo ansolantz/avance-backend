@@ -13,6 +13,11 @@ const Feed = require('../models/feed');
 const { validationLoggin } = require('../helpers/middlewares');
 
 
+router.get('/checkServer', async (req, res, next) => {
+  res.status(200);
+});
+
+
 //  POST    '/signup'
 router.post('/signup', validationLoggin(),
   async (req, res, next) => {
