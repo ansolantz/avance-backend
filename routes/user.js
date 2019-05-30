@@ -128,9 +128,14 @@ const checkIfGoalAchieved = (userId, activityName, positiveGoal) => {
       }
     ]
   }, function (err, results) {
+    console.log(`Got ${results.length} results for user ${userId} and activity=${activityName} with positiveGoal: ${positiveGoal}`)
     if (results.length === positiveGoal) {
       console.log("Goal reched!")
       addToFeed(activityName, userId)
+    } else if (results.length > positiveGoal) {
+      console.log('Goal already surpassed');
+    } else {
+      console.log('Goal not reached yet');
     }
   });
 }
@@ -145,7 +150,10 @@ router.post('/addActivity', (req, res, next) => {
       console.log("Adding activity to db")
 
       if (positiveGoal > 0) {
+        console.log(`Positive goal is ${positiveGoal}, check if it is reached`);
         checkIfGoalAchieved(userId, activityName, positiveGoal)
+      } else {
+        console.log('No goal defined, returning')
       }
       res
         .status(201)
