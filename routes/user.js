@@ -195,6 +195,14 @@ function addToFeed(activityName, userId) {
     const text = 'You drank 6 cups of coffe yesterday! You may want to cut back on your coffee drinking'
 
     Feed.create({ activityName, userId, feedbackType, category, image, title, text });
+  } else if (activityName === 'drink-beer') {
+    const category = 'Hidration';
+    const image = 'beer-warning-1.jpg';
+    const feedbackType = 'negative';
+    const title = 'Too much acohol!';
+    const text = 'The amount of alcohol that you have been drinking exceeds recommended guidelines and puts you at risk for developing alcohol-related problems, you may want to try cutting down or moderating your consumption.'
+
+    Feed.create({ activityName, userId, feedbackType, category, image, title, text });
   }
 }
 
