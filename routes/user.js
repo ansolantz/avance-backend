@@ -176,7 +176,7 @@ function addToFeed(activityName, userId) {
     const feedbackType = 'positive';
     const image = 'hydration.jpg';
     const title = 'Congrats you reached your daily goal!';
-    const text = 'You drank 8 glasses of water today!'
+    const text = 'Water is best for staying hydrated! Drinking enough water is important for your overall health and wellbeing.'
 
     Feed.create({ activityName, userId, feedbackType, category, image, title, text });
   } else if (activityName === 'eat-fruit') {
@@ -184,7 +184,7 @@ function addToFeed(activityName, userId) {
     const feedbackType = 'positive';
     const image = 'vitamins.jpg';
     const title = 'Vitamin goal acomliched!';
-    const text = 'You ate 2 fruits today!'
+    const text = 'You ate the recomended amount of fruit today. Fruit is an important source for vitamins and it is also high in fiber, which has many health benefits.'
 
     Feed.create({ activityName, userId, feedbackType, category, image, title, text });
   } else if (activityName === 'drink-coffee') {
