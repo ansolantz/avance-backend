@@ -68,7 +68,6 @@ router.post('/logout', (req, res, next) => {
 
 //  GET    '/me'
 router.get('/me/:id', async (req, res, next) => {
-
   if (req.params.id) {
     const user = await User.findOne({ _id: req.params.id });
     res.json(user);
@@ -80,7 +79,6 @@ router.get('/me/:id', async (req, res, next) => {
 
 //  PUT    '/update'
 router.put('/update/', (req, res, next) => {
-
   const { _id } = req.body;
   let dataToUppdate = { ...req.body };
   delete dataToUppdate._id;
@@ -143,7 +141,7 @@ const checkIfGoalAchieved = (userId, activityName, positiveGoal) => {
 
 //  POST    '/addActivity'
 router.post('/addActivity', (req, res, next) => {
-  const { activityName, positiveGoal, userId, data } = req.body;
+  const { activityName, positiveGoal, negativeGoal, userId, data } = req.body;
 
   Activity.create({ activityName, userId, data })
     .then((response) => {
@@ -152,7 +150,11 @@ router.post('/addActivity', (req, res, next) => {
       if (positiveGoal > 0) {
         console.log(`Positive goal is ${positiveGoal}, check if it is reached`);
         checkIfGoalAchieved(userId, activityName, positiveGoal)
-      } else {
+      } else if (negativeGoal > 0) {
+        console.log(`Negativgoal is ${negativeGoal}, check if it is reached`);
+        checkIfGoalAchieved(userId, activityName, negativeGoal)
+      }
+      else {
         console.log('No goal defined, returning')
       }
       res
@@ -167,17 +169,33 @@ router.post('/addActivity', (req, res, next) => {
 });
 
 function addToFeed(activityName, userId) {
-  const feedbackType = 'positive';
 
+  // -- This should be improved!
   if (activityName === 'drink-water') {
     const category = 'Hidration';
-    const image = '../assets/images/hydration.jpg';
+    const feedbackType = 'positive';
+    const image = 'hydration.jpg';
     const title = 'Congrats you reached your daily goal!';
     const text = 'You drank 8 glasses of water today!'
 
     Feed.create({ activityName, userId, feedbackType, category, image, title, text });
-  }
+  } else if (activityName === 'eat-fruit') {
+    const category = 'Vitamins';
+    const feedbackType = 'positive';
+    const image = 'vitamins.jpg';
+    const title = 'Vitamin goal acomliched!';
+    const text = 'You ate 2 fruits today!'
 
+    Feed.create({ activityName, userId, feedbackType, category, image, title, text });
+  } else if (activityName === 'drink-coffee') {
+    const category = 'Hidration';
+    const image = 'coffe-warning-1.jpg';
+    const feedbackType = 'negative';
+    const title = 'Ops, take it easy!';
+    const text = 'You drank 6 cups of coffe yesterday! You may want to cut back on your coffee drinking'
+
+    Feed.create({ activityName, userId, feedbackType, category, image, title, text });
+  }
 }
 
 //  POST    '/addToFeed'
@@ -201,7 +219,6 @@ router.post('/addToFeed', (req, res, next) => {
 
 //  GET    '/getFeed'
 router.get('/getFeed/:id', async (req, res, next) => {
-
   if (req.params.id) {
     const user = await Feed.find({ userId: req.params.id });
     console.log("Getting user feed from db")
@@ -209,9 +226,7 @@ router.get('/getFeed/:id', async (req, res, next) => {
   } else {
     res.status(500).send()
   }
-
 });
-
 
 
 module.exports = router;
