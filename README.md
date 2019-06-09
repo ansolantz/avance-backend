@@ -1,106 +1,16 @@
-# avance (Frontend)
+# Avance (Backend)
 
 ## Habit builder
 
-This app will help people to create good habits every day. I will give recomendations that the user should follow. The result will be displayed in a feed, depending on the user actions.
+This app will help people to create good habits every day. It gives recomendations that the user should follow. The result is displayed in a feed, depending on the user actions.
 
-The application is built in React Native.
+This was my final project at Ironhack Web Developer bootcamp. I only had 1,5 weeks to build it, so I didn't have time to implement all features I would have liked. For the MVP I focused on three activities, Hidration, Vitamins and Simple Exercise.
 
-## User Stories
+The application is built in React Native with a backend using Mongo, Express and Node.js.
 
-- **Signup:** As an anon I can sign up in the platform.
-
-- **Login:** As a user I can login to the platform so that I can register activity and see my progress.
-
-- **Logout:** As a user I can logout from the platform so no one else can use it
-
-- **Onboarding:** As a user I will answer some introduction questions. 
-
-- **User profile** As a user I can edit my profile.
-
-- **Dashboard** As a user I can see the activitys I can work on.
-
-- **Activity Reg** As a user I will be able to registrer what I eat or drink.
-
-- **Activit movement reg**  As a user I want to be able to see how many steps I taken/day.
-
-- **Feedback** As a user I want to get feedback on how I'm doing.
-
-  
-
-## Backlog
-
-Activity:
-- Register food with ean scan
-- Register photo with image recognition
-- Read pedometer values
-
-  
-
-# Client
-
-## Routes
-| Method | Path | Component | Permissions | Behavior |
-|--------|------|--------|--| -------|
-| `get`  | `/` | LoginComponent | public |  |
-| `post` | `/auth/signup` | SignupPageComponent| anon only| signup form, link to login, navigate to on boarding after signup |
-| `post` | `/auth/login` | LoginPageComponent | anon only |login form, link to signup, navigate to dashboard after login |
-| `post` | `/auth/logout` | n/a| private | navigate to LoginPage after logout, expire session |
-| `get` | `/onboarding` | OnboardingComponent | private | Handle on boarding, answer questions and store in db. This will be inside signup. |
-| `get` | `/dashboard` | DashboardComponent | private | Show available and future activities |
-| `get` | `/activityInfo` | ActivityInfoConmponent | private | Show info about how to do an activity |
-| `post` | `/activityRegister` | RegisterActivityComponent | private | First case is to click an image of the product eaten or drunken and that this registeres in the db. |
-| `get` | `/feedback` | FeedbackComponent | private | Shows accomplishments (or failures) in a feed |
-| `post `| `/account` | AccountComponent | private | Allows changing user info |
+More information about the app and how it works is avaliable on the [React Native Rrepository here](https://github.com/ansolantz/avance-native)
 
 
-
-## Components
-
-- Log in component
-  
-- Profile component
-  
-  - Add profile component 
-  - Edit profile component
-  
-- Omboarding component
-  
-- Activity recomendation component
-  
-- Register activity component
-  
-  - image component
-  - Bar-code scanner component
-  - Image recognition component
-  
-- Feed component
-  
-  - Feed item component
-  
-- Step target component
-  
-- Step display component
-  
-  
-
-
-## Services
-
-- Auth Service
-  - auth.login(user)
-  - auth.signup(user)
-  - auth.logout()
-  - auth.me()
-  - auth.getUser() // synchronous
-- Activity Service
-  - addActivity(data)
-- Feedback Service
-  - getFeedback
-- Account Service
-  - editAccountDetails
-
-# Server
 
 ## Models
 
@@ -232,21 +142,15 @@ const questAnswSchema = new Schema({
   - get array of all user feedback
   - 200 OK with array of feedback objects
   
-  
 
 ## Links
 
-### Trello
-
-[Trello board](https://trello.com/b/IyZgK8xX/avance) 
-
-### Git
-
-[Repository Link](https://github.com/ansolantz/avance-native)
+###The app
 
 [Deploy Link (mobile)](https://exp.host/@ansolantz/avance-native)
 
-### Slides
+### Git
 
-[Slides Link](https://docs.google.com/presentation/d/1cM6jcVP8W3MW1Noit5v_rjv8CHtO1uaUa9JWNQtgx5s/edit?usp=sharing)
+[Repository Link](https://github.com/ansolantz/avance-backend)
+
 
